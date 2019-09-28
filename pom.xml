@@ -86,11 +86,11 @@
 	    <scope>provided</scope>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc6 -->
-	<dependency>
+	<!-- <dependency>
 		<groupId>com.oracle</groupId>
 		<artifactId>ojdbc6</artifactId>
 		<version>11.2.0.3</version>
-	</dependency>
+	</dependency> -->
 		
   	<!-- 
   		@Test测试
