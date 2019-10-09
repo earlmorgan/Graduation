@@ -1,5 +1,12 @@
 spring:
+   #jsp配置
    mvc:
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
+   #MySQL配置
+   datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/bank?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: ljf123456
