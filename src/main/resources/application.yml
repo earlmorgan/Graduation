@@ -9,15 +9,22 @@ spring:
       static-path-pattern: /data/**
    #MySQL配置
    datasource:
+      #数据库驱动
       driver-class-name: com.mysql.jdbc.Driver
+      #数据库地址
       url: jdbc:mysql://localhost:3306/bank?useUnicode=true&characterEncoding=utf8
+      #用户名
       username: root
+      #密码
       password: ljf123456
    resources:
       #修改默认的静态寻址资源目录 多个使用逗号分隔
       static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/mytest/
+   profiles:
+      #环境切换
+      active:
 ---
-#
+#开发环境
 server:
 #端口设置
    port: 8081
@@ -30,3 +37,10 @@ server:
    port: 8082
 spring:
    profiles: prod
+---
+#测试环境
+server:
+   #端口设置
+   port: 8083
+spring:
+   profiles: test
