@@ -1,12 +1,32 @@
+##核心配置
 spring:
-   #jsp配置
    mvc:
+      #jsp配置
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
+      #静态文件文件请求匹配方式(访问时要加上的根路径,注:目录结构中并不存在)
+      static-path-pattern: /data/**
    #MySQL配置
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/bank?useUnicode=true&characterEncoding=utf8
       username: root
       password: ljf123456
+   resources:
+      #修改默认的静态寻址资源目录 多个使用逗号分隔
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/mytest/
+---
+#
+server:
+#端口设置
+   port: 8081
+spring:
+   profiles: dev
+---
+#生产环境
+server:
+   #端口设置
+   port: 8082
+spring:
+   profiles: prod
