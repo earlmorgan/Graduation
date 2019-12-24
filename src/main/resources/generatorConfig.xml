@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!--数据库驱动jar -->
+    <classPathEntry location="C:\Users\摩根伯爵\.m2\repository\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar" />
+
+    <!-- MyBatis3Simple:The mappers generated with this target runtime are very basic CRUD operations only with no "by example" methods and very little dynamic SQL.-->
+    <!-- 官方參考:http://mybatis.org/generator/configreference/context.html -->
+    <context id="Mysql" targetRuntime="MyBatis3" ><!--defaultModelType="flat" 此模型仅为任何表生成一个域类。类将保存表中的所有字段。-->
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+<!--com.mysql.jdbc.Driver jdbc:mysql://localhost:3306/test -->
+        <jdbcConnection driverClass= "com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://139.9.136.231:3306/bcdl?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false"
+                        userId="bcdl"
+                        password="SippSPZKZuVkbqbITF*JWxWWz3D^6tXbXeG7OOV6w$y%fI*d4N$Asajv&amp;i50Oq@kqN#Zfk*al#KUdB4">
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL
+            和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+
+        </javaTypeResolver>
+        <!--生成实体类 指定包名 以及生成的地址 （可以自定义地址， 但是路径不存在不会自动创建 使用Maven生成在target目录下，会自动创建） -->
+        <javaModelGenerator targetPackage="com.bcdl.model.entity" targetProject=".\src\main\java" >
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--生成SQL MAP文件 -->
+        <sqlMapGenerator targetPackage="com.bcdl.dao.implement"  targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+        <!--生成Dao文件 可以配置 type="XMLMAPPER"生成xml的dao实现 context id="DB2Tables" 修改targetRuntime="MyBatis3" -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bcdl.dao" targetProject=".\src\main\java" >
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table tableName="User">
+            <!--开启自定义映射,未配置属性将直接使用列名-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+            <!--The <generatedKey> element is used to specify properties for auto generated keys (from identity field or sequences). If you specify this element, MyBatis Generator (MBG) will generate an appropriate <selectKey> element inside the generated <insert> element in the SQL map. This element is an optional child element of the <table> element.
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+            <!--
+            columnOverride 配置自定义映射 将指定列(column)映射为指定属性(property)
+            <columnOverride column="DATE_FIELD" property="startDate" />-->
+            <!--The <ignoreColumn> element is used to tell MyBatis Generator (MBG) to ignore a column in an introspected table. No generated SQL will refer to the column, and no property will be generated for the column in the model objects. This element is an optional child element of the <table> element.
+            ignoreColumn 忽略指定列(column)
+            <ignoreColumn column="FRED" />-->
+            <!--columnOverride 将指定列(column),按指定类型(jdbcType)识别-->
+            <!--<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
+        </table>
+    </context>
+</generatorConfiguration>
+
