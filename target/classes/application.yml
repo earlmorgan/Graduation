@@ -1,32 +1,129 @@
 ##核心配置
 spring:
-  mvc:
-    #jsp配置
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-    #静态文件文件请求匹配方式(访问时要加上的根路径,注:目录结构中并不存在)
-    static-path-pattern: /data/**
-  #MySQL配置
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bank?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: ljf123456
-  resources:
-    #修改默认的静态寻址资源目录 多个使用逗号分隔
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/mytest/
+   #mvc:
+      #jsp配置
+      #view:
+       #  prefix: classpath:/jsps/
+       #  suffix: .jsp
+       #  view-names: jsp/*
+      #静态文件文件请求匹配方式(访问时要加上的根路径,注:目录结构中并不存在)
+      #static-path-pattern: /**
+#   resources:
+      #修改默认的静态寻址资源目录 多个使用逗号分隔
+#      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+   #thymeleaf:
+      #prefix: classpath:/thymeleafs/
+      #suffix: .html
+      #view-names: thymeleaf/*
+   #MySQL配置
+   datasource:
+      #druid连接池配置
+      druid:
+         driver-class-name: com.mysql.cj.jdbc.Driver
+         url: jdbc:mysql://139.9.136.231:3306/bcdl?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+         username: bcdl
+         password: SippSPZKZuVkbqbITF*JWxWWz3D^6tXbXeG7OOV6w$y%fI*d4N$Asajv&i50Oq@kqN#Zfk*al#KUdB4
+         #初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+         initial-size: 1
+         min-idle: 1
+         #定义最大连接池数量
+         max-active: 20
+         #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁。
+         max-wait: 60000
+         #间隔多久进行一次检测，检测需要关闭的空闲连接
+         time-between-eviction-runs-millis: 60000
+         #一个连接在池中最小生存的时间
+         min-evictable-idle-time-millis: 300000
+         #用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+         validation-query: SELECT 'x'
+         #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+         test-while-idle: true
+         #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+         test-on-borrow: false
+         #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+         test-on-return: false
+         #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+         #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。
+         #在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。
+         pool-prepared-statements: false
+         #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+         #在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+         max-pool-prepared-statement-per-connection-size: 20
+         #属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat;日志用的filter:log4j;防御sql注入的filter:wall
+         filters: stat,wall
+
+   profiles:
+      active: dev
+mybatis:
+   #mapper映射xml文件的所在路径
+   mapper-locations: classpath:com/bcdl/dao/implement/*.xml
+   #对应实体类的路径
+   type-aliases-package: com.bcdl.model.entity
+   #DAO接口所在包名，Spring会自动查找其下的类
+   base-packages: com.bcdl.dao
+
+logging:
+   #日志级别
+   level:
+      com.bcdl.dao: debug
+      #com:
+      #   bcdl:
+      #      dao: debug
+
+
+
 ---
-#
+#开发环境
 server:
-  #端口设置
-  port: 8081
+   #端口设置
+   #port: 8081
 spring:
-  profiles: dev
+   profiles: dev
+   thymeleaf:
+      #缓存，开发环境下建议不缓存
+      cache: false
+   #热部署生效（貌似默认开启的）
+   devtools:
+      restart:
+         enabled: true
 ---
 #生产环境
 server:
-  #端口设置
-  port: 8082
+   #端口设置
+   #port: 8082
 spring:
-  profiles: prod
+   profiles: prod
+   thymeleaf:
+      cache: true
+---
+WebConfig:
+   Thymeleaf:
+      #访问根路径
+      prefix: classpath:/templates/
+      #访问资源后缀
+      suffix: .html
+      #Template mode to be applied to templates. See also Thymeleaf's TemplateMode enum.
+      #模板类型
+      mode: HTML
+      #编码格式
+      encoding: utf-8
+      #是否对模板进行缓存
+      cache: false
+      #可解析的视图
+      viewNames: thymeleaf/*
+      #不解析的视图
+      excludedViewNames:
+      #templateResolverOrder
+      #Order 优先级
+      template-resolver-order: 1
+      #是否启动
+      enabled: true
+   View:
+      prefix: /WEB-INF/
+      suffix: .jsp
+      viewNames: jsp/*
+      order: 2
+
+
+
+

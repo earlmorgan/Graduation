@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    <p>这是Templates下的index</p>
+    <p th:text="${TIME}">要显示的文本内容</p>
+    <a href="login.html" th:href="@{/login}">登录</a>
+    <a href="register.html" th:href="@{/register}">注册</a>
+</body>
+</html>
